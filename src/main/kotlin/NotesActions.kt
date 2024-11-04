@@ -2,17 +2,20 @@ import entities.Archive
 import entities.Note
 import java.util.Scanner
 
-class NotesActions {
+class NotesActions(
+    private val archivesList: MutableList<Archive>,
+    private val currentArchiveIndex: Int
+) {
     private val scanner = Scanner(System.`in`)
 
-    fun selectNotesAction(archive: Archive) {
+    fun selectNotesAction() {
         val actionsList = listOf(
             Actions.CREATE_NOTE.action,
             Actions.OPEN_NOTES.action,
             Actions.BACK.action
         )
 
-        println("Вы находитесь в архиве «${archive.name}»")
+        println("Вы находитесь в архиве «${archivesList[currentArchiveIndex].name}»")
         actionsList.forEachIndexed { index, action ->
             println("$index — $action")
         }
@@ -20,17 +23,17 @@ class NotesActions {
             val action = scanner.nextLine().toIntOrNull()
             when (action) {
                 0 -> {
-                    createNote(archive)
+                    createNote(archivesList[currentArchiveIndex])
                     break
                 }
 
                 1 -> {
-                    openNotesList(archive)
+                    openNotesList(archivesList[currentArchiveIndex])
                     break
                 }
 
                 2 -> {
-                    ArchivesActions().selectArchive()
+                    ArchivesActions().selectArchive(archivesList)
                     break
                 }
 
@@ -72,7 +75,7 @@ class NotesActions {
                     openNote(archive, note)
                     break
                 } else {
-                    selectNotesAction(archive)
+                    selectNotesAction()
                     break
                 }
             }
@@ -104,7 +107,7 @@ class NotesActions {
 
                 1 -> {
                     if (archive.notes.isNotEmpty()) openNotesList(archive)
-                    else selectNotesAction(archive)
+                    else selectNotesAction()
                     break
                 }
 

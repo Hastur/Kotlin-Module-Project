@@ -3,7 +3,7 @@ import java.util.Scanner
 
 class ArchivesActions {
     private val scanner = Scanner(System.`in`)
-    private val archivesList = mutableListOf<Archive>()
+    private var archivesList = mutableListOf<Archive>()
 
     fun selectAction() {
         val actionsList = listOf(
@@ -26,7 +26,7 @@ class ArchivesActions {
                 }
 
                 1 -> {
-                    selectArchive()
+                    selectArchive(archivesList)
                     break
                 }
 
@@ -53,7 +53,8 @@ class ArchivesActions {
         }
     }
 
-    fun selectArchive() {
+    fun selectArchive(archivesList: MutableList<Archive>) {
+        this.archivesList = archivesList
         if (archivesList.isNotEmpty()) {
             println("Выберите архив либо введите любой другой символ для возврата:")
             archivesList.forEachIndexed { index, archive ->
@@ -62,7 +63,8 @@ class ArchivesActions {
             while (true) {
                 val selectedArchive = scanner.nextLine().toIntOrNull()
                 if (selectedArchive != null && selectedArchive in archivesList.indices) {
-                    NotesActions().selectNotesAction(archivesList[selectedArchive])
+                    val notes = NotesActions(archivesList, selectedArchive)
+                    notes.selectNotesAction()
                     break
                 } else {
                     selectAction()
