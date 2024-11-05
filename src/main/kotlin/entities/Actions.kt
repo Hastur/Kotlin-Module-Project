@@ -1,3 +1,5 @@
+package entities
+
 enum class Actions(val action: String) {
     SELECT_ACTION("Выберите действие:"),
     CREATE_ARCHIVE("Создать архив"),

@@ -1,3 +1,3 @@
-fun main(args: Array<String>) {
-    ArchivesActions().selectAction()
+fun main() {
+    OperatingBlock().start()
 }
