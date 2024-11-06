@@ -1,3 +1,5 @@
-fun main(args: Array<String>) {
-    println("Hello World!")
+import java.util.Scanner
+
+fun main() {
+    OperatingBlock(Scanner(System.`in`)).start()
 }
