@@ -1,3 +1,5 @@
+import java.util.Scanner
+
 fun main() {
-    OperatingBlock().start()
+    OperatingBlock(Scanner(System.`in`)).start()
 }

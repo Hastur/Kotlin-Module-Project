@@ -4,8 +4,7 @@ import entities.Note
 import entities.Screens
 import java.util.Scanner
 
-class OperatingBlock {
-    private val scanner = Scanner(System.`in`)
+class OperatingBlock(private val scanner: Scanner) {
     private val archivesList = mutableListOf<Archive>()
     private var currentScreen = Screens.ARCHIVES_SCREEN
     private var currentArchiveIndex = 0
@@ -67,25 +66,20 @@ class OperatingBlock {
 
     private fun create() {
         println("Введите название:")
-        val name = inputWithCheck()
+        val name = Utils().inputWithCheck()
         when (currentScreen) {
             Screens.ARCHIVES_SCREEN -> {
-                if (name != null) {
-                    archivesList.add(Archive(name, mutableListOf()))
-                    println("Архив «$name» добавлен")
-                    addMore()
-                }
+                archivesList.add(Archive(name, mutableListOf()))
+                println("Архив «$name» добавлен")
+                addMore()
             }
 
             Screens.NOTES_SCREEN -> {
                 println("Введите текст заметки:")
-                val content = inputWithCheck()
-
-                if (name != null && content != null) {
-                    archivesList[currentArchiveIndex].notes.add(Note(name, content))
-                    println("Заметка «$name» добавлена в архив «${archivesList[currentArchiveIndex].name}»")
-                    addMore()
-                }
+                val content = Utils().inputWithCheck()
+                archivesList[currentArchiveIndex].notes.add(Note(name, content))
+                println("Заметка «$name» добавлена в архив «${archivesList[currentArchiveIndex].name}»")
+                addMore()
             }
         }
     }
@@ -141,15 +135,6 @@ class OperatingBlock {
         }
     }
 
-    private fun inputWithCheck(): String? {
-        var userInput: String?
-        while (true) {
-            userInput = scanner.nextLine().trim()
-            if (userInput.isEmpty()) println("Пустое значение, повторите ввод") else break
-        }
-        return userInput
-    }
-
     private fun isEmptyCheck(): Boolean {
         var isEmpty = false
         when (currentScreen) {
@@ -185,7 +170,7 @@ class OperatingBlock {
                 }
 
                 1 -> {
-                    select()
+                    start()
                     break
                 }
 
